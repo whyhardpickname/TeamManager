@@ -1,7 +1,5 @@
 package domain.equipment;
 
-import domain.equipment.Equipment;
-
 /**
  * 台式电脑类{@code PC}是应用了设备接口{@code Equipment}的类。
  *

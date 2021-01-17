@@ -1,7 +1,5 @@
 package domain.equipment;
 
-import domain.equipment.Equipment;
-
 /**
  * 显示屏类{@code Printer}是应用了设备接口{@code Equipment}的类。
  *
