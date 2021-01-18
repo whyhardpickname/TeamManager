@@ -34,28 +34,4 @@ public class EmployeeTest
         assertEquals(28, employee.getAge());
         assertEquals(10000.0, employee.getSalary());
     }
-
-    @Test
-    public void testGetID()
-    {
-        assertEquals(1, employee.getId());
-    }
-
-    @Test
-    public void testGetName()
-    {
-        assertEquals("mark", employee.getName());
-    }
-
-    @Test
-    public void testGetAge()
-    {
-        assertEquals(28, employee.getAge());
-    }
-
-    @Test
-    public void testGetSalary()
-    {
-        assertEquals(10000.0, employee.getSalary());
-    }
 }

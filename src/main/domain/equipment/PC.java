@@ -27,6 +27,16 @@ public class PC implements Equipment
         this.display = display;
     }
 
+    public String getModel()
+    {
+        return model;
+    }
+
+    public String getDisplay()
+    {
+        return display;
+    }
+
     /**
      * 返回该对象的型号和显示屏的字符串描述。
      * @return 型号和显示屏的字符串描述。
@@ -35,8 +45,8 @@ public class PC implements Equipment
     public String getDescription()
     {
         return "PC{" +
-                "model='" + model + '\'' +
-                ", display='" + display + '\'' +
+                "model=" + model +
+                ", display=" + display +
                 '}';
     }
 }
