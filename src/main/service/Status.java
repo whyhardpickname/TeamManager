@@ -1,4 +1,4 @@
-package servise;
+package service;
 
 /**
  * 状态类{@code Status}是定义开发团队成员状态的枚举类。

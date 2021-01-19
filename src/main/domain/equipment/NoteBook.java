@@ -28,6 +28,16 @@ public class NoteBook implements Equipment
         this.price = price;
     }
 
+    public String getModel()
+    {
+        return model;
+    }
+
+    public double getPrice()
+    {
+        return price;
+    }
+
     /**
      * 返回该对象的型号和价格的字符串描述。
      * @return 型号和价格的字符串描述
@@ -36,7 +46,7 @@ public class NoteBook implements Equipment
     public String getDescription()
     {
         return "NoteBook{" +
-                "model='" + model + '\'' +
+                "model=" + model +
                 ", price=" + price +
                 '}';
     }

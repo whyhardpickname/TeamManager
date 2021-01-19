@@ -1,7 +1,7 @@
 package domain.employee;
 
 import domain.equipment.Equipment;
-import servise.Status;
+import service.Status;
 
 /**
  * 程序员类{@code Programmer}是雇员的子类，除了雇员原有的属性，
@@ -44,5 +44,20 @@ public class Programmer extends Employee
         this.memberID = memberID;
         this.status = status;
         this.equipment = equipment;
+    }
+
+    public int getMemberID()
+    {
+        return memberID;
+    }
+
+    public Status getStatus()
+    {
+        return status;
+    }
+
+    public Equipment getEquipment()
+    {
+        return equipment;
     }
 }

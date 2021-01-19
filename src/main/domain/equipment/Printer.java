@@ -27,6 +27,16 @@ public class Printer implements Equipment
         this.name = name;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
     /**
      * 返回该对象的类型和名字和字符串描述。
      * @return 类型和名字和字符串描述。
@@ -35,8 +45,8 @@ public class Printer implements Equipment
     public String getDescription()
     {
         return "Printer{" +
-                "type='" + type + '\'' +
-                ", name='" + name + '\'' +
+                "type=" + type +
+                ", name=" + name +
                 '}';
     }
 }

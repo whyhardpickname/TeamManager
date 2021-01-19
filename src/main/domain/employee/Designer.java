@@ -1,7 +1,7 @@
 package domain.employee;
 
 import domain.equipment.Equipment;
-import servise.Status;
+import service.Status;
 
 /**
  * 设计师类{@code Designer}是程序员类{@code Programmer}的子类，区在在于拥有奖金。
@@ -40,5 +40,10 @@ public class Designer extends Programmer
     {
         super(id, name, age, salary, memberID, status, equipment);
         this.bonus = bonus;
+    }
+
+    public double getBonus()
+    {
+        return bonus;
     }
 }
