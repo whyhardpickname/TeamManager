@@ -7,8 +7,7 @@ package exception;
  *
  * @author MarkChern
  */
-//TODO
-//测试
+//TODO 测试
 public class TeamOperationException extends Exception
 {
     public TeamOperationException()

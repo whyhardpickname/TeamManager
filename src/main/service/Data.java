@@ -1,6 +1,5 @@
 package service;
-//TODO
-//添加注释
+//TODO 添加注释
 public class Data {
     public static final int EMPLOYEE = 10;
     public static final int PROGRAMMER = 11;

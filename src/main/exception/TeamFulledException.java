@@ -6,8 +6,7 @@ package exception;
  *
  * @author MarkChern
  */
-//TODO
-//测试
+//TODO 测试
 public class TeamFulledException extends TeamOperationException
 {
     /** 开发团队成员人数*/

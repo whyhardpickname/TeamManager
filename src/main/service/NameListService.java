@@ -11,8 +11,8 @@ package service;
 public class NameListService
 {
     //TODO
-    //NameListService()构造器
-    //getAllEmployees ()方法
-    //getEmployee(id : int)方法
-    //测试
+    // -NameListService()构造器
+    // -getAllEmployees ()方法
+    // -getEmployee(id : int)方法
+    // -测试
 }
