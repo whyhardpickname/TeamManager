@@ -7,12 +7,12 @@ package exception;
  * @author MarkChern
  */
 //TODO 测试
-public class TeamFulledException extends TeamOperationException
+public class TeamFullException extends TeamException
 {
     /** 开发团队成员人数*/
     private int members;
 
-    public TeamFulledException()
+    public TeamFullException()
     {
     }
 
@@ -20,9 +20,9 @@ public class TeamFulledException extends TeamOperationException
      * {@code} TeamFulledException 构造一个带字符串信息的成员已满异常对象。
      * @param members
      */
-    public TeamFulledException(int members)
+    public TeamFullException(int members)
     {
-        super("The team is fulled.");
+        super("The team is full and can't be added.");
         this.members = members;
     }
 }

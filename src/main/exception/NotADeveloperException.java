@@ -8,7 +8,7 @@ import domain.employee.Employee;
  * @author MarkChern
  */
 //TODO 测试
-public class NotADeveloperException extends TeamOperationException
+public class NotADeveloperException extends TeamException
 {
     private Employee employee;
 
@@ -22,7 +22,7 @@ public class NotADeveloperException extends TeamOperationException
      */
     public NotADeveloperException(Employee employee)
     {
-        super(employee.getName() + "is not a developer.");
+        super(employee.getName() + "is not a developer and can't be added.");
         this.employee = employee;
     }
 }
