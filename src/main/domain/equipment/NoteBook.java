@@ -1,5 +1,7 @@
 package domain.equipment;
 
+import java.util.Objects;
+
 /**
  * 笔记本电脑类{@code PC}是应用了设备接口{@code Equipment}的类。
  *
@@ -49,5 +51,21 @@ public class NoteBook implements Equipment
                 "model=" + model +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NoteBook noteBook = (NoteBook) o;
+        return Double.compare(noteBook.getPrice(), price) == 0 &&
+                Objects.equals(model, noteBook.getModel());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(model, price);
     }
 }

@@ -31,18 +31,12 @@ public class Programmer extends Employee
      *      年龄
      * @param salary
      *      薪水
-     * @param memberID
-     *      公司成员加入开发团队后的身份证明
-     * @param status
-     *      成员的状态
      * @param equipment
      *      成员领用的设备
      */
-    public Programmer(int id, String name, int age, double salary, int memberID, Status status, Equipment equipment)
+    public Programmer(int id, String name, int age, double salary, Equipment equipment)
     {
         super(id, name, age, salary);
-        this.memberID = memberID;
-        this.status = status;
         this.equipment = equipment;
     }
 
@@ -59,5 +53,15 @@ public class Programmer extends Employee
     public Equipment getEquipment()
     {
         return equipment;
+    }
+
+    public void setMemberID(int memberID)
+    {
+        this.memberID = memberID;
+    }
+
+    public void setStatus(Status status)
+    {
+        this.status = status;
     }
 }

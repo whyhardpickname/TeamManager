@@ -1,12 +1,18 @@
 package service;
 
+import domain.employee.Architect;
+import domain.employee.Designer;
 import domain.employee.Employee;
+import domain.employee.Programmer;
 import domain.equipment.Equipment;
+import domain.equipment.NoteBook;
 import domain.equipment.PC;
+import domain.equipment.Printer;
+import exception.NotFoundEmployeeException;
 import exception.TeamException;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * {@code NameListService}类是用来保存公司全体员工的信息。
@@ -32,16 +38,8 @@ public class NameListService
      * {@code NameListService}根据Data类的数据构建相应大小的{@code Employee}数组，
      * 再根据{@code Data}中的数据构建不同的对象。
      */
-    public NameListService()
-    {
-    }
-
-    /**
-     * {@code getAllEmployees}获得当前所有员工
-     *
-     * @return 包含所有员工的数组
-     */
-    public Employee[] getAllEmployees()
+    public NameListService() throws NoSuchMethodException,
+            InstantiationException, InvocationTargetException, IllegalAccessException
     {
         //根据Data.EMPLOYEES数据构造相应大小数组
         employees = new Employee[Data.EMPLOYEES.length];
@@ -52,9 +50,18 @@ public class NameListService
         //3.调用各自构造器
         for (int i = 0; i < Data.EMPLOYEES.length; i++)
         {
-
+            employees[i] = createEmployee(i, Data.EMPLOYEES[i][0]);
         }
-        return null;
+    }
+
+    /**
+     * {@code getAllEmployees}获得当前所有员工
+     *
+     * @return 包含所有员工的数组
+     */
+    public Employee[] getAllEmployees()
+    {
+        return employees;
     }
 
     /**
@@ -65,70 +72,90 @@ public class NameListService
      * @throws TeamException
      *          如果找不到指定员工
      */
-    public Employee getEmployee(int id) throws TeamException
+    public Employee getEmployee(int id) throws NotFoundEmployeeException
     {
-        return null;
+        for (int i = 0; i < employees.length; i++)
+        {
+            if (employees[i].getId() == id)
+            {
+                return employees[i];
+            }
+        }
+        throw new NotFoundEmployeeException(id);
     }
 
     /**
      * {@code createEmployee}根据Data.EMPLOYEES每行数据的第一个数据构建对应员工对象
+     *
+     * @param row
+     *       Data.EMPLOYEES第row行下标
      * @param code
      *      员工类型编码
      * @return  code对应的员工类型
      */
-    private Employee createEmployee(String code) throws Exception
+    private Employee createEmployee(int row, String code) throws NoSuchMethodException,
+            InstantiationException, InvocationTargetException, IllegalAccessException
     {
-        Constructor constructor;
+        int id = Integer.parseInt(Data.EMPLOYEES[row][1]);
+        String name = Data.EMPLOYEES[row][2];
+        double salary = Double.parseDouble(Data.EMPLOYEES[row][3]);
+        int age = Integer.parseInt(Data.EMPLOYEES[row][4]);
+
         if (code == "10")
         {
-            constructor = PC.class.getConstructor(String.class, String.class);
+            return new Employee(id, name, age,salary);
         }
         else if (code == "11")
         {
-
+            return new Programmer(id, name, age, salary,
+                    createEquipment(row, code));
         }
         else if (code == "12")
         {
-
+            double bonus = Integer.parseInt(Data.EMPLOYEES[row][5]);
+            return new Designer(id, name, age, salary,
+                    createEquipment(row, code), bonus);
         }
         else if (code == "13")
         {
-
+            double bonus = Double.parseDouble(Data.EMPLOYEES[row][5]);
+            int stock = Integer.parseInt(Data.EMPLOYEES[row][6]);
+            return new Architect(id, name, age, salary,
+                    createEquipment(row, code), bonus, stock);
         }
-        else
-        {
 
-        }
         return null;
     }
 
     /**
      * {@code createEquipment}根据Data.EMPLOYEES每行第三项确定员工领用设备,
      * 再根据EQUIPMENTS构建对应设备
-     * @param id
+     * @param row
      *      员工id
      * @param code
      *      员工领用设备编码
      */
-    private Equipment createEquipment(int id, String code)
+    private Equipment createEquipment(int row, String code) throws NoSuchMethodException,
+            InstantiationException, InvocationTargetException, IllegalAccessException
     {
-
+        Constructor constructor;
         if (code == "21")
         {
-
+            constructor = PC.class.getConstructor(String.class, String.class);
         }
         else if (code == "22")
         {
-
+            constructor = NoteBook.class.getConstructor(String.class, String.class);
         }
         else if (code == "23")
         {
-
+            constructor = Printer.class.getConstructor(String.class, String.class);
         }
         else
         {
-
+            return null;
         }
-        return null;
+        //Data.EQUIPMENTS[id][1]对应第一个参数，Data.EQUIPMENTS[id][2]对应第二个参数
+        return (Equipment) constructor.newInstance(Data.EQUIPMENTS[row][1], Data.EQUIPMENTS[row][2]);
     }
 }

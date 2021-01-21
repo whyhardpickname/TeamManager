@@ -26,10 +26,6 @@ public class Architect extends Designer
      *      年龄
      * @param salary
      *      薪水
-     * @param memberID
-     *      公司成员加入开发团队后的身份证明
-     * @param status
-     *      成员的状态
      * @param equipment
      *      成员领用的设备
      * @param bonus
@@ -37,9 +33,9 @@ public class Architect extends Designer
      * @param stock
      *      股票
      */
-    public Architect(int id, String name, int age, double salary, int memberID, Status status, Equipment equipment, double bonus, int stock)
+    public Architect(int id, String name, int age, double salary, Equipment equipment, double bonus, int stock)
     {
-        super(id, name, age, salary, memberID, status, equipment, bonus);
+        super(id, name, age, salary, equipment, bonus);
         this.stock = stock;
     }
 

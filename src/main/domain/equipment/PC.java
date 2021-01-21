@@ -1,5 +1,7 @@
 package domain.equipment;
 
+import java.util.Objects;
+
 /**
  * 台式电脑类{@code PC}是应用了设备接口{@code Equipment}的类。
  *
@@ -48,5 +50,21 @@ public class PC implements Equipment
                 "model=" + model +
                 ", display=" + display +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PC pc = (PC) o;
+        return Objects.equals(model, pc.getModel()) &&
+                Objects.equals(display, pc.getDisplay());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(model, display);
     }
 }

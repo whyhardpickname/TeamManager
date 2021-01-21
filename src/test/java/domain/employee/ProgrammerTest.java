@@ -1,7 +1,9 @@
 package domain.employee;
 
 import domain.equipment.PC;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import service.Data;
 import service.Status;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,8 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ProgrammerTest
 {
-    Programmer programmer = new Programmer(1, "mark", 28, 10000.0, 1,
-            Status.FREE, new PC("戴尔", "3800-R33"));
+    Programmer programmer = new Programmer(1, "mark",
+            28, 10000.0,new PC("戴尔", "3800-R33"));
+
+    @BeforeEach
+    void setUp()
+    {
+        programmer.setMemberID(1);
+        programmer.setStatus(Status.FREE);
+    }
 
     @Test
     void testProgrammerConstructor()

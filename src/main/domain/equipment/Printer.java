@@ -1,5 +1,7 @@
 package domain.equipment;
 
+import java.util.Objects;
+
 /**
  * 显示屏类{@code Printer}是应用了设备接口{@code Equipment}的类。
  *
@@ -48,5 +50,21 @@ public class Printer implements Equipment
                 "type=" + type +
                 ", name=" + name +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Printer printer = (Printer) o;
+        return Objects.equals(type, printer.getType()) &&
+                Objects.equals(name, printer.getName());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(type, name);
     }
 }

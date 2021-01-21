@@ -21,7 +21,7 @@ public class NotFoundEmployeeException extends TeamException
      */
     public NotFoundEmployeeException(int id)
     {
-        super("The specified employee could not be found.");
+        super("The specified employee with ID " + id + " could not be found.");
         this.id = id;
     }
 }
