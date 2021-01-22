@@ -1,5 +1,7 @@
 package domain.employee;
 
+import java.util.Objects;
+
 /**
  * 雇员类{@code Employee}是用来创建具有身份证明(ID),姓名，年龄和薪水的公司雇员。
  *
@@ -56,5 +58,23 @@ public class Employee
     public double getSalary()
     {
         return salary;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return getId() == employee.getId() &&
+                getAge() == employee.getAge() &&
+                Double.compare(employee.getSalary(), getSalary()) == 0 &&
+                Objects.equals(getName(), employee.getName());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getId(), getName(), getAge(), getSalary());
     }
 }

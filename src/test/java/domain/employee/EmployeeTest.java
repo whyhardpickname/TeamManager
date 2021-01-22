@@ -15,23 +15,29 @@ public class EmployeeTest
     Employee employee;
 
     @BeforeEach
-    public void setUp()
+    void setUp()
     {
         this.employee = new Employee(1, "mark", 28, 10000.0);
     }
 
     @AfterEach
-    public void tearDown()
+    void tearDown()
     {
         this.employee = null;
     }
 
     @Test
-    public void testEmployeeConstructor()
+    void testEmployeeConstructor()
     {
         assertEquals(1, employee.getId());
         assertEquals("mark", employee.getName());
         assertEquals(28, employee.getAge());
         assertEquals(10000.0, employee.getSalary());
+    }
+
+    @Test
+    void testEqual()
+    {
+        assertEquals(new Employee(1, "mark", 28, 10000.0), employee);
     }
 }

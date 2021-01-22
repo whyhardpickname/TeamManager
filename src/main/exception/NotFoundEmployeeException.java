@@ -6,22 +6,16 @@ package exception;
  */
 public class NotFoundEmployeeException extends TeamException
 {
-    /*指定员工id*/
-    private int id;
-
     public NotFoundEmployeeException()
     {
-
+        super("The specified employee " + "couldn't found.");
     }
 
     /**
-     * {@code NotFoundEmployeeException}是在指定id无法找到对应员工时抛出的异常。
-     * @param id
-     *      指定员工id
+     * {@code NotFoundEmployeeException}是在法找到对应员工时抛出的异常。
      */
     public NotFoundEmployeeException(int id)
     {
-        super("The specified employee with ID " + id + " could not be found.");
-        this.id = id;
+        super("The specified employee with ID " + id + " couldn't found.");
     }
 }
