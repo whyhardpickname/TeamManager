@@ -46,17 +46,14 @@ class NameListServiceTest
         Printer printer = new Printer("激光", "佳能 2900");
 
         Method method = NameListService.class.getDeclaredMethod("createEquipment",
-                int.class, String.class);
+                int.class);
         method.setAccessible(true);
         //之所以不通过，是因为传入设备构造器的两个参数都是Data.EQUIPMENTS[row][1]
         //以及Data.EQUIPMENTS[row][1]第一行是空的。
-        assertEquals(pc, method.invoke(nameListService, 2, "21"));
-        assertEquals(noteBook, method.invoke(nameListService, 1, "22"));
-        assertEquals(printer, method.invoke(nameListService, 4, "23"));
-        assertThrows(NotFoundEquipmentException.class, () ->
-                {
-                    method.invoke(nameListService, 4, "24");
-                });
+        assertEquals(pc, method.invoke(nameListService, 2));
+        assertEquals(noteBook, method.invoke(nameListService, 1));
+        assertEquals(printer, method.invoke(nameListService, 4));
+        assertEquals(null, method.invoke(nameListService, 0));
     }
 
     @Test
@@ -76,14 +73,16 @@ class NameListServiceTest
                 new PC("宏碁 ", "AT7-N52"), 15000, 2500);
 
         Method method = NameListService.class.getDeclaredMethod("createEmployee",
-                int.class, String.class);
+                int.class);
         method.setAccessible(true);
-        assertEquals(employee, method.invoke(nameListService, 0, "10"));
-        assertEquals(programmer, method.invoke(nameListService, 2, "11"));
-        assertEquals(designer, method.invoke(nameListService, 4, "12"));
-        assertEquals(architect, method.invoke(nameListService, 7, "13"));
-        assertEquals(new NotFoundEmployeeException(7),
-                method.invoke(nameListService, 7, "14"));
+        assertEquals(employee, method.invoke(nameListService, 0));
+        assertEquals(programmer, method.invoke(nameListService, 2));
+        assertEquals(designer, method.invoke(nameListService, 4));
+        assertEquals(architect, method.invoke(nameListService, 7));
+        assertThrows(NotFoundEmployeeException.class, () ->
+            {
+                method.invoke(nameListService, 7);
+            });
     }
     @Test
     void getAllEmployees()

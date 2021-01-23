@@ -11,6 +11,7 @@ import domain.equipment.Printer;
 import exception.NotFoundEmployeeException;
 import exception.NotFoundEquipmentException;
 import exception.TeamException;
+import org.omg.CORBA.DATA_CONVERSION;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -33,13 +34,13 @@ public class NameListService
     /*所有公司员工对象*/
     Employee[] employees;
 
-
     /**
      * {@code NameListService}根据Data类的数据构建相应大小的{@code Employee}数组，
      * 再根据{@code Data}中的数据构建不同的对象。
      */
     public NameListService() throws  NotFoundEquipmentException, NotFoundEmployeeException
     {
+
         //根据Data.EMPLOYEES数据构造相应大小数组
         employees = new Employee[Data.EMPLOYEES.length];
 
@@ -49,7 +50,7 @@ public class NameListService
         //3.调用各自构造器
         for (int i = 0; i < Data.EMPLOYEES.length; i++)
         {
-            employees[i] = createEmployee(i, Data.EMPLOYEES[i][0]);
+            employees[i] = createEmployee(i);
         }
     }
 
@@ -88,16 +89,17 @@ public class NameListService
      *
      * @param row
      *       Data.EMPLOYEES第row行下标
-     * @param code
-     *      员工类型编码
      * @return  code对应的员工类型
+     *
+     * @throws
      */
-    private Employee createEmployee(int row, String code) throws NotFoundEquipmentException, NotFoundEmployeeException
+    private Employee createEmployee(int row) throws NotFoundEquipmentException, NotFoundEmployeeException
     {
         int id = Integer.parseInt(Data.EMPLOYEES[row][1]);
         String name = Data.EMPLOYEES[row][2];
         int age = Integer.parseInt(Data.EMPLOYEES[row][3]);
         double salary = Double.parseDouble(Data.EMPLOYEES[row][4]);
+        String code = Data.EMPLOYEES[row][0]; //员工编码
 
         if (code == "10")
         {
@@ -106,21 +108,22 @@ public class NameListService
         else if (code == "11")
         {
             return new Programmer(id, name, age, salary,
-                    createEquipment(row, code));
+                    createEquipment(row));
         }
         else if (code == "12")
         {
             double bonus = Integer.parseInt(Data.EMPLOYEES[row][5]);
             return new Designer(id, name, age, salary,
-                    createEquipment(row, code), bonus);
+                    createEquipment(row), bonus);
         }
         else if (code == "13")
         {
             double bonus = Double.parseDouble(Data.EMPLOYEES[row][5]);
             int stock = Integer.parseInt(Data.EMPLOYEES[row][6]);
             return new Architect(id, name, age, salary,
-                    createEquipment(row, code), bonus, stock);
+                    createEquipment(row), bonus, stock);
         }
+
         throw new NotFoundEmployeeException();
     }
 
@@ -129,11 +132,19 @@ public class NameListService
      * 再根据EQUIPMENTS构建对应设备
      * @param row
      *      员工id
-     * @param code
-     *      员工领用设备编码
+     * @throws NotFoundEquipmentException
+     *      当设备编码不存在时，抛出该异常。
      */
-    private Equipment createEquipment(int row, String code) throws NotFoundEquipmentException
+    private Equipment createEquipment(int row) throws NotFoundEquipmentException
     {
+        //员工的设备对应设备集的行数，之前传入的code是雇员的code
+        //由于存在没有设备的员工,提前设置为null
+        String code = null; //设备编码
+        if (Data.EQUIPMENTS[row].length != 0)
+        {
+            code = Data.EQUIPMENTS[row][0];
+        }
+
         //Data.EQUIPMENTS[id][1]对应第一个参数，Data.EQUIPMENTS[id][2]对应第二个参数
         if (code == "21")
         {
@@ -152,6 +163,10 @@ public class NameListService
             String type = Data.EQUIPMENTS[row][1];
             String name = Data.EQUIPMENTS[row][2];
             return new Printer(type, name);
+        }
+        else if (code == null)
+        {
+            return null;
         }
         throw new NotFoundEquipmentException();
     }
