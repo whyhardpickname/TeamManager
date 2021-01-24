@@ -10,10 +10,8 @@ import domain.equipment.PC;
 import domain.equipment.Printer;
 import exception.NotFoundEmployeeException;
 import exception.NotFoundEquipmentException;
-import exception.TeamException;
-import org.omg.CORBA.DATA_CONVERSION;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 /**
  * {@code NameListService}类是用来保存公司全体员工的信息。
@@ -69,16 +67,16 @@ public class NameListService
      * @param id
      *      指定员工的id
      * @return  指定员工对象
-     * @throws TeamException
+     * @throws NotFoundEmployeeException
      *          如果找不到指定员工
      */
     public Employee getEmployee(int id) throws NotFoundEmployeeException
     {
-        for (int i = 0; i < employees.length; i++)
+        for (Employee employee: employees)
         {
-            if (employees[i].getId() == id)
+            if (employee.getId() == id)
             {
-                return employees[i];
+                return employee;
             }
         }
         throw new NotFoundEmployeeException(id);
@@ -91,7 +89,10 @@ public class NameListService
      *       Data.EMPLOYEES第row行下标
      * @return  code对应的员工类型
      *
-     * @throws
+     * @throws NotFoundEquipmentException
+     *      是在无法找到对应设备时抛出的异常。
+     * @throws NotFoundEmployeeException
+     *      是当找不到指定员工时抛出的异常。
      */
     private Employee createEmployee(int row) throws NotFoundEquipmentException, NotFoundEmployeeException
     {
@@ -101,22 +102,46 @@ public class NameListService
         double salary = Double.parseDouble(Data.EMPLOYEES[row][4]);
         String code = Data.EMPLOYEES[row][0]; //员工编码
 
-        if (code == "10")
+        switch (code)
+        {
+            case "10":
+                return new Employee(id, name, age,salary);
+
+            case "11":
+                return new Programmer(id, name, age, salary,
+                        createEquipment(row));
+
+            case "12":
+                double bonus = Integer.parseInt(Data.EMPLOYEES[row][5]);
+                return new Designer(id, name, age, salary,
+                        createEquipment(row), bonus);
+
+            case "13":
+                bonus = Double.parseDouble(Data.EMPLOYEES[row][5]);
+                int stock = Integer.parseInt(Data.EMPLOYEES[row][6]);
+                return new Architect(id, name, age, salary,
+                        createEquipment(row), bonus, stock);
+
+            default:
+                throw new NotFoundEmployeeException();
+        }
+        /*
+        if (code.equals("10"))
         {
             return new Employee(id, name, age,salary);
         }
-        else if (code == "11")
+        else if (code.equals("11"))
         {
             return new Programmer(id, name, age, salary,
                     createEquipment(row));
         }
-        else if (code == "12")
+        else if (code.equals("12"))
         {
             double bonus = Integer.parseInt(Data.EMPLOYEES[row][5]);
             return new Designer(id, name, age, salary,
                     createEquipment(row), bonus);
         }
-        else if (code == "13")
+        else if (code.equals("13"))
         {
             double bonus = Double.parseDouble(Data.EMPLOYEES[row][5]);
             int stock = Integer.parseInt(Data.EMPLOYEES[row][6]);
@@ -125,6 +150,7 @@ public class NameListService
         }
 
         throw new NotFoundEmployeeException();
+         */
     }
 
     /**
@@ -146,25 +172,25 @@ public class NameListService
         }
 
         //Data.EQUIPMENTS[id][1]对应第一个参数，Data.EQUIPMENTS[id][2]对应第二个参数
-        if (code == "21")
+        if (Objects.equals(code, "21"))
         {
             String model = Data.EQUIPMENTS[row][1];
             String display = Data.EQUIPMENTS[row][2];
             return new PC(model, display);
         }
-        else if (code == "22")
+        else if (Objects.equals(code,"22"))
         {
             String model = Data.EQUIPMENTS[row][1];
             double price = Double.parseDouble(Data.EQUIPMENTS[row][2]);
             return new NoteBook(model, price);
         }
-        else if (code == "23")
+        else if (Objects.equals(code, "23"))
         {
             String type = Data.EQUIPMENTS[row][1];
             String name = Data.EQUIPMENTS[row][2];
             return new Printer(type, name);
         }
-        else if (code == null)
+        else if (Objects.equals(code,null))
         {
             return null;
         }
