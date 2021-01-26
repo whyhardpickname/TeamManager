@@ -1,5 +1,7 @@
 package exception;
 
+import domain.employee.Designer;
+import domain.employee.Programmer;
 import service.TeamService;
 
 /**
@@ -7,26 +9,21 @@ import service.TeamService;
  * 当尝试向团队添加超过对象人数限制的成员则抛出该异常类。
  * @author MarkChern
  */
-public class OutOfNumberException extends TeamException
+public class DesignerOutOfNumberException extends OutOfNumberException
 {
 
-    public OutOfNumberException()
+    public DesignerOutOfNumberException()
     {
     }
 
-
-    public OutOfNumberException(String message)
-    {
-        super(message);
-    }
 
     /**
      * {@code OutOfNumberException}构造一个带人数信息超标的异常对象。
      * @param team
      *      开发团队
      */
-    public OutOfNumberException(TeamService team)
+    public DesignerOutOfNumberException(TeamService team)
     {
-        super("the team is Out of number " + team.getMaxMember());
+        super(Designer.class.getName() + "'s is out fo number " + team.getMaxDesigner());
     }
 }
