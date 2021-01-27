@@ -33,7 +33,7 @@ class TeamServiceTest
     }
 
     @Test
-    void addMember() throws NotFoundEmployeeException
+    void addMember() throws TeamException
     {
         team = new TeamService();
 //        测试程序员人数超出异常
@@ -46,62 +46,69 @@ class TeamServiceTest
         team.addMember(nameList.getEmployee(6));
         assertThrows(ProgrammerOutOfNumberException.class, () ->
                 team.addMember(nameList.getEmployee(10)));
+        assertEquals(3, team.getMembers());
 
 //        测试设计师人数超出异常
 //        设计师{"12", "5", "周芷若", "28", "10000", "5000"},
 //        设计师{"12", "7", "张无忌", "29", "10800","5200"},
 //        设计师{"12", "12", "黄蓉", "27", "9600", "4800"}
+        Programmer programmer = (Programmer) nameList.getEmployee(6);
+        team.removeMember(programmer.getMemberID());
         team.addMember(nameList.getEmployee(5));
         team.addMember(nameList.getEmployee(7));
-        assertThrows(ArchitectOutOfNumberException.class, () ->
-                team.addMember(nameList.getEmployee(10)));
-//        测试团队人数
-        assertEquals(5, team.getMembers());
+        assertThrows(DesignerOutOfNumberException.class, () ->
+            team.addMember(nameList.getEmployee(12)));
+
+        assertEquals(4, team.getMembers());
 
 //        架构师{"13", "2", "令狐冲", "32", "18000", "15000", "2000"},
 //        架构师{"13", "8", "韦小宝", "30", "19800", "15000", "2500"},
-//        测试团队人数超出异常
-        assertThrows(OutOfNumberException.class, () ->
-                team.addMember(nameList.getEmployee(2)));
 //        测试架构师人数超出异常
-        team = new TeamService();
+        Designer designer = (Designer) nameList.getEmployee(7);
+        team.removeMember(designer.getMemberID());
         team.addMember(nameList.getEmployee(2));
         assertThrows(OutOfNumberException.class, () ->
                 team.addMember(nameList.getEmployee(8)));
+//           测试成员人数超出异常
+        assertThrows(OutOfNumberException.class, () ->
+                {
+                    team.addMember(programmer);
+                    team.addMember(designer);
+                });
     }
 
     @Test
-    void removeMember() throws NotFoundEmployeeException
+    void removeMember() throws TeamException
     {
         team = new TeamService();
 //        程序员{"11", "3", "任我行", "23", "7000"},
 //        设计师{"12", "5", "周芷若", "28", "10000", "5000"}
 //        架构师{"13", "2", "令狐冲", "32", "18000", "15000", "2000"},
-        team.addMember(nameList.getEmployee(3));
-        team.addMember(nameList.getEmployee(5));
-        team.addMember(nameList.getEmployee(2));
+        Programmer programmer = (Programmer) nameList.getEmployee(3);
+        Designer designer = (Designer) nameList.getEmployee(5);
+        Architect architect = (Architect) nameList.getEmployee(2);
+        team.addMember(programmer);
+        team.addMember(designer);
+        team.addMember(architect);
 //        测试删除不存在成员
-        assertThrows(NotFoundEmployeeException.class, () ->
-                team.addMember(nameList.getEmployee(4)));
-        team.removeMember(3);
-        team.removeMember(5);
-        team.removeMember(2);
-//        测试重复删除
-        assertThrows(NotFoundEmployeeException.class, () ->
-                team.addMember(nameList.getEmployee(3)));
+        assertThrows(NotTeamMemberException.class, () ->
+                team.removeMember(4));
+        team.removeMember(programmer.getMemberID());
+        team.removeMember(designer.getMemberID());
+        team.removeMember(architect.getMemberID());
     }
 
     @Test
-    void getTeam() throws NotFoundEmployeeException
+    void getTeam() throws TeamException
     {
         team = new TeamService();
 //        程序员{"11", "3", "任我行", "23", "7000"},
 //        设计师{"12", "5", "周芷若", "28", "10000", "5000"}
 //        架构师{"13", "2", "令狐冲", "32", "18000", "15000", "2000"},
-        Programmer[] programmers = new Programmer[3];
+        Programmer[] programmers = new Programmer[5];
         programmers[0] = (Programmer) nameList.getEmployee(3);
-        programmers[0] = (Designer) nameList.getEmployee(5);
-        programmers[0] = (Architect) nameList.getEmployee(2);
+        programmers[1] = (Designer) nameList.getEmployee(5);
+        programmers[2] = (Architect) nameList.getEmployee(2);
 
         team.addMember(nameList.getEmployee(3));
         team.addMember(nameList.getEmployee(5));

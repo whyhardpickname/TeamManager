@@ -1,7 +1,10 @@
 package service;
 
+import domain.employee.Architect;
+import domain.employee.Designer;
 import domain.employee.Employee;
 import domain.employee.Programmer;
+import exception.*;
 
 /**
  * {@code TeamService}用来创建和管理开发团队成员。
@@ -32,6 +35,8 @@ public class TeamService
     private int designers = 0;
     /** 架构师当前人数*/
     private int architects = 0;
+    /** 团队当前人数 */
+    private int members = 0;
     /** team数组用来保存当前团队中的各成员对象 */
     private Programmer[] team = new Programmer[maxMember];
 
@@ -57,9 +62,95 @@ public class TeamService
      * @param employee
      *      添加对象
      */
-    public void addMember(Employee employee)
+    public void addMember(Employee employee) throws TeamException
     {
+        /**
+         * 1.先检查团队是否已满，是的话抛出异常
+         * 2.再检查实际类型对应人数是否已满，是的话抛出异常
+         * 2.1 方法getClass, equals
+         * 3.查看加入对象的状态是否处于空闲，是的话抛出异常
+         * 4.再查看对象是否已加入团队，是的话抛出异常
+         * 5.以上皆是，赋予对象新成员id，修改状态，更新id生成变量
+         */
+//        1.先检查团队是否已满，是的话抛出异常
+        if (members >= maxMember)
+        {
+            throw new OutOfNumberException();
+        }
 
+//        2.再检查实际类型对应人数是否已满，是的话抛出异常,不是添加成员
+        if (employee.getClass().equals(Programmer.class))
+        {
+            if (programmers >= maxProgrammer)
+            {
+                throw new ProgrammerOutOfNumberException();
+            }
+            else
+            {
+                Programmer programmer = (Programmer) employee;
+                if (programmer.getStatus() == Status.VOCATION)
+                {
+                    throw new OnVocationException();
+                }
+                else if (programmer.getStatus() == Status.BUSY)
+                {
+                    throw new AlreadyADeveloperException();
+                }
+
+                team[members++] = programmer;
+                programmers++;
+                programmer.setStatus(Status.BUSY);
+                programmer.setMemberID(counter++);
+            }
+        }
+        else if (employee.getClass().equals(Designer.class))
+        {
+            if (designers >= maxDesigner)
+            {
+                throw new DesignerOutOfNumberException();
+            } else
+            {
+                Designer designer = (Designer) employee;
+                if (designer.getStatus() == Status.VOCATION)
+                {
+                    throw new OnVocationException();
+                } else if (designer.getStatus() == Status.BUSY)
+                {
+                    throw new AlreadyADeveloperException();
+                }
+
+                team[members++] = designer;
+                designers++;
+                designer.setStatus(Status.BUSY);
+                designer.setMemberID(counter++);
+            }
+        }
+        else if (employee.getClass().equals(Architect.class))
+        {
+            if (architects >= maxArchitect)
+            {
+                throw new ArchitectOutOfNumberException();
+            } else
+            {
+                Architect architect = (Architect) employee;
+                if (architect.getStatus() == Status.VOCATION)
+                {
+                    throw new OnVocationException();
+                } else if (architect.getStatus() == Status.BUSY)
+                {
+                    throw new AlreadyADeveloperException();
+                }
+
+                team[members++] = architect;
+                architects++;
+                architect.setStatus(Status.BUSY);
+                architect.setMemberID(counter++);
+            }
+        }
+        else
+        {
+            throw new NotADeveloperException();
+        }
     }
 
     /**
@@ -67,9 +158,41 @@ public class TeamService
      * @param memberId
      *      删除对象的成员ID
      */
-    public void removeMember(int memberId)
+    public void removeMember(int memberId) throws NotTeamMemberException
     {
-
+        /**
+         * 1.找到对应id成员
+         * 2.从找到处开始依次用后面成员覆盖前面成员
+         * 3.修改被删成员状态
+         * 4.更新各类型成员人数。
+         */
+        for (int i = 0; i < members; i++)
+        {
+            if (team[i].getMemberID() == memberId)
+            {
+                team[i].setMemberID(-1);
+                team[i].setStatus(Status.FREE);
+                if (team[i].getClass().equals(Programmer.class))
+                {
+                    programmers--;
+                }
+                else if (team[i].getClass().equals(Designer.class))
+                {
+                    designers--;
+                }
+                else if (team[i].getClass().equals(Architect.class))
+                {
+                    architects--;
+                }
+                for (int j = i + 1; j < members; j++)
+                {
+                    team[j - 1] = team[j];
+                }
+                members--;
+                return;
+            }
+        }
+        throw new NotTeamMemberException();
     }
 
     public int getMaxMember()
@@ -109,6 +232,6 @@ public class TeamService
 
     public int getMembers()
     {
-        return team.length;
+        return members;
     }
 }

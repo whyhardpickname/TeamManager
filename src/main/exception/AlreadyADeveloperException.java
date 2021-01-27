@@ -7,7 +7,6 @@ import domain.employee.Employee;
  * 当尝试向团队添加已是程序员类及其子类对象则抛出该异常类。
  * @author MarkChern
  */
-//TODO 测试
 public class AlreadyADeveloperException extends TeamException
 {
     public AlreadyADeveloperException()
