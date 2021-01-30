@@ -1,7 +1,9 @@
 package utilities;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
@@ -57,7 +59,7 @@ public class TSUtility
      * @return
      *      读取的行
      */
-    private String readKeyBoard(int limit, boolean blankReturn)
+    private static String readKeyBoard(int limit, boolean blankReturn)
     {
         String line = "";
         while (scanner.hasNextLine())
@@ -77,7 +79,7 @@ public class TSUtility
 
             if (line.length() < 1 || line.length() > limit)
             {
-                System.out.println("输入长度错误，请重新输入：");
+                System.out.print("输入长度错误，请重新输入：");
                 continue;
             }
             break;
@@ -90,6 +92,7 @@ public class TSUtility
         InputStream backup = System.in;
         ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
         System.setIn(input);
+        scanner = new Scanner(System.in);
         if (scanner.nextInt() == 1)
         {
             System.out.println("ok");
@@ -102,8 +105,34 @@ public class TSUtility
         System.setIn(backup);
     }
 
+    public static void simplePrint()
+    {
+        System.out.println("ok");
+    }
+    public static void testMethodSideEffect()
+    {
+        PrintStream original = System.out;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        TSUtility.simulateInput();
+        System.setOut(original);
+
+        System.out.println(out.toString() + "!");
+    }
     public static void main(String[] args)
     {
-        simulateInput();
+//        simulateInput();
+//        testMethodSideEffect();
+        TSUtility.readKeyBoard(1, false);
+    }
+
+    public static Scanner getScanner()
+    {
+        return scanner;
+    }
+
+    public static void setScanner(Scanner scanner)
+    {
+        TSUtility.scanner = scanner;
     }
 }

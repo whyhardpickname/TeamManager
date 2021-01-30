@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class TSUtilityTest
 {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
     private  ByteArrayInputStream in;
 
     @BeforeEach
@@ -44,6 +43,8 @@ class TSUtilityTest
         //模拟输入,保存输出
         String simulatedUserInput = "0" + System.getProperty("line.separator") + "1";
         in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
         System.setIn(in);
         System.setOut(new PrintStream(outContent));
@@ -88,15 +89,17 @@ class TSUtilityTest
         PrintStream originalOut = System.out;
 
         //空白输入+ false + 正确输入
-        String simulatedUserInput = "" + System.getProperty("line.separator") + "1" +
-                System.getProperty("line.separator");
+        String simulatedUserInput = System.getProperty("line.separator");
         in = new ByteArrayInputStream(simulatedUserInput.getBytes());
 
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         //模拟输入,保存输出
         System.setIn(in);
         System.setOut(new PrintStream(outContent));
 
-        assertEquals("1", method.invoke(utility, 1, false));
+        TSUtility.setScanner(new Scanner(in));
+        //assertEquals("1", method.invoke(utility, 1, false));
+        method.invoke(utility, 1, false);
         assertEquals("输入长度错误，请重新输入：", outContent.toString());
 
         /*System.setIn(in);
@@ -108,7 +111,7 @@ class TSUtilityTest
         assertNull(outContent.toString());*/
 
         //恢复
-        System.setIn(sysBackup);
+        TSUtility.setScanner(new Scanner(sysBackup));
         System.setOut(originalOut);
     }
 }
