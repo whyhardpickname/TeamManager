@@ -1,5 +1,6 @@
 package utilities;
 
+import javax.xml.transform.Source;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -21,7 +22,21 @@ public class TSUtility
      */
     public static char readMenuSelection()
     {
-        return '1';
+        char selection;
+
+        while (true)
+        {
+            selection = readKeyBoard(1, false).charAt(0);
+
+            if (selection == '1' || selection == '2' || selection == '3' || selection == '4')
+            {
+                return selection;
+            }
+            else
+            {
+                System.out.print("选择错误，请重新输入：");
+            }
+        }
     }
 
     /**
@@ -29,7 +44,8 @@ public class TSUtility
      */
     public static void readReturn()
     {
-
+        System.out.print("请按回车键继续...");
+        readKeyBoard(100, true);
     }
 
     /**
@@ -38,7 +54,23 @@ public class TSUtility
      */
     public static int readInt()
     {
-        return 0;
+        boolean isInt = false;
+        int n = 0;
+        do
+        {
+            String in = readKeyBoard(2, false);
+            try
+            {
+                n = Integer.parseInt(in);
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.println("错误：请输入不超过2位的整数");
+                isInt = true;
+            }
+        }
+        while (!isInt);
+        return n;
     }
 
     /**
@@ -70,10 +102,6 @@ public class TSUtility
                 if (blankReturn)
                 {
                     return line;
-                }
-                else
-                {
-                    continue;
                 }
             }
 
