@@ -5,7 +5,7 @@ import service.Status;
 
 /**
  * 程序员类{@code Programmer}是雇员的子类，除了雇员原有的属性，
- * 还包含成员的声明证明(menberID)领用的设备{@link Equipment}和成员的状态{@link Status}。
+ * 还包含成员ID(menberID),领用的设备{@link Equipment}和成员的状态{@link Status}。
  *
  * <p>程序员主要作为开发团队的一员。
  *

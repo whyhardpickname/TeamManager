@@ -4,7 +4,7 @@ import domain.equipment.Equipment;
 import service.Status;
 
 /**
- * 设计师类{@code Designer}是程序员类{@code Programmer}的子类，区在在于拥有奖金。
+ * 设计师类{@code Designer}是程序员类{@code Programmer}的子类，区别在于拥有奖金。
  *
  * <p>设计师主要作为开发团队中的一员。
  *

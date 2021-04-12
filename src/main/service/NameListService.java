@@ -23,12 +23,6 @@ import java.util.Objects;
  */
 public class NameListService
 {
-    //TODO
-    // -NameListService()构造器
-    // -getAllEmployees ()方法
-    // -getEmployee(id : int)方法
-    // -测试
-
     /*所有公司员工对象*/
     Employee[] employees;
 
@@ -39,15 +33,14 @@ public class NameListService
     public NameListService() throws  NotFoundEquipmentException, NotFoundEmployeeException
     {
 
-        //根据Data.EMPLOYEES数据构造相应大小数组
+        //根据Data.EMPLOYEES数组长度构造相应大小数组
         employees = new Employee[Data.EMPLOYEES.length];
 
         //根据Data.EMPLOYEES数据构造相应对象
         //1.根据Data.EMPLOYEES[i][3]构建对应设备
         //2.根据Data.EMPLOYEES[i][0]构建对应员工对象
         //3.调用各自构造器
-        for (int i = 0; i < Data.EMPLOYEES.length; i++)
-        {
+        for (int i = 0; i < Data.EMPLOYEES.length; i++) {
             employees[i] = createEmployee(i);
         }
     }
@@ -72,10 +65,8 @@ public class NameListService
      */
     public Employee getEmployee(int id) throws NotFoundEmployeeException
     {
-        for (Employee employee: employees)
-        {
-            if (employee.getId() == id)
-            {
+        for (Employee employee: employees) {
+            if (employee.getId() == id) {
                 return employee;
             }
         }
