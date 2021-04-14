@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author MarkChern
  */
-public class Employee
+public class Employee implements Comparable<Employee>
 {
     /**身份证*/
     private int id;
@@ -76,5 +76,11 @@ public class Employee
     public int hashCode()
     {
         return Objects.hash(getId(), getName(), getAge(), getSalary());
+    }
+
+    @Override
+    public int compareTo(Employee o)
+    {
+        return getId() - o.getId();
     }
 }

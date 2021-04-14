@@ -11,6 +11,8 @@ import domain.equipment.Printer;
 import exception.NotFoundEmployeeException;
 import exception.NotFoundEquipmentException;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -63,14 +65,15 @@ public class NameListService
      * @throws NotFoundEmployeeException
      *          如果找不到指定员工
      */
-    public Employee getEmployee(int id) throws NotFoundEmployeeException
+    public Employee getEmployee(int id) throws NotFoundEquipmentException
     {
-        for (Employee employee: employees) {
-            if (employee.getId() == id) {
-                return employee;
-            }
+        Employee key = new Employee(id, null, 0, 0);
+        int index = Arrays.binarySearch(employees, key, Employee::compareTo);
+        if (index >= 0) {
+
+            return employees[index];
         }
-        throw new NotFoundEmployeeException(id);
+        throw new NotFoundEquipmentException();
     }
 
     /**
