@@ -21,7 +21,7 @@ public class TeamService
 {
     /** 用来为开发团队新增成员自动生成团队中的唯一ID */
     private int counter = 1;
-    /** 开发团最大人数*/
+    /** 开发人员最大人数*/
     private final int maxMember = 5;
     /** 程序员最大人数*/
     private final int maxProgrammer = 3;
@@ -43,8 +43,7 @@ public class TeamService
     /**
      * {@code TeamService}构造开发团队的对象，并初始化开发团队成员。
      */
-    public TeamService()
-    {
+    public TeamService() {
     }
 
     /**
@@ -62,8 +61,7 @@ public class TeamService
      * @param employee
      *      添加对象
      */
-    public void addMember(Employee employee) throws TeamException
-    {
+    public void addMember(Employee employee) throws TeamException {
         /**
          * 1.先检查团队是否已满，是的话抛出异常
          * 2.再检查实际类型对应人数是否已满，是的话抛出异常
@@ -73,27 +71,38 @@ public class TeamService
          * 5.以上皆是，赋予对象新成员id，修改状态，更新id生成变量
          */
 //        1.先检查团队是否已满，是的话抛出异常
-        if (members >= maxMember)
-        {
+        if (members >= maxMember) {
             throw new OutOfNumberException();
         }
 
 //        2.再检查实际类型对应人数是否已满，是的话抛出异常,不是添加成员
-        if (employee.getClass().equals(Programmer.class))
-        {
-            if (programmers >= maxProgrammer)
-            {
+        if (!employee.getClass().equals(Programmer.class)) {
+            throw new NotADeveloperException();
+        }
+        Programmer programmer = (Programmer) employee;
+        if (programmer.getStatus() == Status.VOCATION) {
+            throw new OnVocationException();
+        }
+        else if (programmer.getStatus() == Status.BUSY) {
+            throw new AlreadyADeveloperException();
+        }
+
+        if (employee.getClass().equals(Programmer.class)) {
+            if (programmers >= maxProgrammer) {
                 throw new ProgrammerOutOfNumberException();
             }
-            else
-            {
+        }
+        /*if (employee.getClass().equals(Programmer.class))
+        {
+            if (programmers >= maxProgrammer) {
+                throw new ProgrammerOutOfNumberException();
+            }
+            else {
                 Programmer programmer = (Programmer) employee;
-                if (programmer.getStatus() == Status.VOCATION)
-                {
+                if (programmer.getStatus() == Status.VOCATION) {
                     throw new OnVocationException();
                 }
-                else if (programmer.getStatus() == Status.BUSY)
-                {
+                else if (programmer.getStatus() == Status.BUSY) {
                     throw new AlreadyADeveloperException();
                 }
 
@@ -103,13 +112,11 @@ public class TeamService
                 programmer.setMemberID(counter++);
             }
         }
-        else if (employee.getClass().equals(Designer.class))
-        {
-            if (designers >= maxDesigner)
-            {
+        else if (employee.getClass().equals(Designer.class)) {
+            if (designers >= maxDesigner) {
                 throw new DesignerOutOfNumberException();
-            } else
-            {
+            }
+            else {
                 Designer designer = (Designer) employee;
                 if (designer.getStatus() == Status.VOCATION)
                 {
@@ -127,17 +134,15 @@ public class TeamService
         }
         else if (employee.getClass().equals(Architect.class))
         {
-            if (architects >= maxArchitect)
-            {
+            if (architects >= maxArchitect) {
                 throw new ArchitectOutOfNumberException();
-            } else
-            {
+            }
+            else {
                 Architect architect = (Architect) employee;
-                if (architect.getStatus() == Status.VOCATION)
-                {
+                if (architect.getStatus() == Status.VOCATION) {
                     throw new OnVocationException();
-                } else if (architect.getStatus() == Status.BUSY)
-                {
+                }
+                else if (architect.getStatus() == Status.BUSY) {
                     throw new AlreadyADeveloperException();
                 }
 
@@ -147,11 +152,10 @@ public class TeamService
                 architect.setMemberID(counter++);
             }
         }
-        else
-        {
+        else {
             throw new NotADeveloperException();
         }
-    }
+    }*/
 
     /**
      * {removeMember}方法从团队中删除成员

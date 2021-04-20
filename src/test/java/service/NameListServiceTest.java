@@ -55,8 +55,7 @@ class NameListServiceTest
 
     @Test
     void testCreateEquipment() throws NoSuchMethodException,
-            IllegalAccessException, InvocationTargetException
-    {
+            IllegalAccessException, InvocationTargetException {
         PC pc = new PC("宏碁 ", "AT7-N52");
         NoteBook noteBook = new NoteBook("联想Y5", 6000);
         Printer printer = new Printer("激光", "佳能 2900");
@@ -74,8 +73,7 @@ class NameListServiceTest
 
     @Test
     void testCreateEmployee() throws NoSuchMethodException,
-            InvocationTargetException, IllegalAccessException
-    {
+            InvocationTargetException, IllegalAccessException {
         Method method = NameListService.class.getDeclaredMethod("createEmployee",
                 int.class);
         method.setAccessible(true);
@@ -85,15 +83,13 @@ class NameListServiceTest
         assertEquals(architect, method.invoke(nameListService, 7));
     }
     @Test
-    void getAllEmployees()
-    {
+    void getAllEmployees() {
         assertEquals(12, nameListService.getAllEmployees().length);
     }
 
     @Test
     void getEmployee() throws NoSuchMethodException,
-            InvocationTargetException, IllegalAccessException
-    {
+            InvocationTargetException, IllegalAccessException {
         Method method = NameListService.class.getDeclaredMethod("getEmployee", int.class);
         method.setAccessible(true);
         assertEquals(employee, method.invoke(nameListService, 1));

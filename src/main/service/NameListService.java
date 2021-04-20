@@ -100,8 +100,7 @@ public class NameListService {
         double salary = Double.parseDouble(Data.EMPLOYEES[row][4]);
         String code = Data.EMPLOYEES[row][0]; //员工编码
 
-        switch (code)
-        {
+        switch (code) {
             case "10":
                 return new Employee(id, name, age,salary);
 
@@ -159,8 +158,7 @@ public class NameListService {
      * @throws NotFoundEquipmentException
      *      当设备编码不存在时，抛出该异常。
      */
-    private Equipment createEquipment(int row) throws NotFoundEquipmentException
-    {
+    private Equipment createEquipment(int row) throws NotFoundEquipmentException {
         //员工的设备对应设备集的行数，之前传入的code是雇员的code
         //由于存在没有设备的员工,提前设置为null
         String code = null; //设备编码
