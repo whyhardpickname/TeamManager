@@ -1,7 +1,6 @@
 package domain.employee;
 
 import domain.equipment.Equipment;
-import service.Status;
 
 /**
  * 架构师类{@code Architect}是设计师类{@code Designer}的子类，区别是拥有股票。

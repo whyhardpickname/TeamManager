@@ -23,8 +23,7 @@ import java.util.Objects;
  *
  * @author MarkChern
  */
-public class NameListService
-{
+public class NameListService {
     /*所有公司员工对象*/
     Employee[] employees;
 
@@ -32,8 +31,7 @@ public class NameListService
      * {@code NameListService}根据Data类的数据构建相应大小的{@code Employee}数组，
      * 再根据{@code Data}中的数据构建不同的对象。
      */
-    public NameListService() throws  NotFoundEquipmentException, NotFoundEmployeeException
-    {
+    public NameListService() throws  NotFoundEquipmentException, NotFoundEmployeeException {
 
         //根据Data.EMPLOYEES数组长度构造相应大小数组
         employees = new Employee[Data.EMPLOYEES.length];
@@ -52,8 +50,7 @@ public class NameListService
      *
      * @return 包含所有员工的数组
      */
-    public Employee[] getAllEmployees()
-    {
+    public Employee[] getAllEmployees() {
         return employees;
     }
 
@@ -65,15 +62,22 @@ public class NameListService
      * @throws NotFoundEmployeeException
      *          如果找不到指定员工
      */
-    public Employee getEmployee(int id) throws NotFoundEquipmentException
-    {
+    public Employee getEmployee(int id) throws NotFoundEmployeeException {
+        for(Employee employee : employees) {
+            if (employee.getId() == id) {
+                return employee;
+            }
+        }
+        throw new NotFoundEmployeeException();
+
+        /*
         Employee key = new Employee(id, null, 0, 0);
         int index = Arrays.binarySearch(employees, key, Employee::compareTo);
         if (index >= 0) {
 
             return employees[index];
         }
-        throw new NotFoundEquipmentException();
+         */
     }
 
     /**
@@ -88,8 +92,8 @@ public class NameListService
      * @throws NotFoundEmployeeException
      *      是当找不到指定员工时抛出的异常。
      */
-    private Employee createEmployee(int row) throws NotFoundEquipmentException, NotFoundEmployeeException
-    {
+    private Employee createEmployee(int row) throws NotFoundEquipmentException,
+            NotFoundEmployeeException {
         int id = Integer.parseInt(Data.EMPLOYEES[row][1]);
         String name = Data.EMPLOYEES[row][2];
         int age = Integer.parseInt(Data.EMPLOYEES[row][3]);

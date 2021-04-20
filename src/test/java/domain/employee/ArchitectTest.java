@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author MarkChern
  */
-class ArchitectTest
+class ArchitectTest 
 {
     Architect architect = new Architect(1, "mark", 28, 10000.0,
             new NoteBook("联想Y5", 6000.0), 100000.0, 100000);

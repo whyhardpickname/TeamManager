@@ -11,19 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author MarkChern
  */
-class PCTest
-{
+class PCTest {
     PC pc;
     @BeforeEach
-    void setUp()
-    {
+    void setUp() {
         pc = new PC("戴尔","3800-R33");
     }
 
     @AfterEach
     void tearDown()
     {
-        pc = null;
+        this.pc = null;
     }
 
     @Test
@@ -34,14 +32,12 @@ class PCTest
     }
 
     @Test
-    void getDescription()
-    {
+    void getDescription() {
         assertEquals("PC{model=戴尔, display=3800-R33}", pc.getDescription());
     }
 
     @Test
-    void testEquals()
-    {
+    void testEquals() {
         PC pc1 = new PC("戴尔","3800-R33");
         PC pc2 = new PC("戴尔","3800-R34");
         assertEquals(pc, pc1);
